@@ -1,0 +1,31 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-1877c0001c2-5a3900a32f7ac692": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "spring_db",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "spring_db",
+				"url": "jdbc:mysql://localhost:3306/spring_db",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}

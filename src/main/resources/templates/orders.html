@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<head>
+    <title>Orders</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="/img/spring-boot.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/webjars/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+    <link rel="stylesheet" href="/css/addons/datatables.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        #orders-table_wrapper {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body class="grey lighten-3">
+
+
+<!--Main Navigation-->
+<header>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div class="container-fluid">
+
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Left -->
+                <!-- Search Bar -->
+
+                <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons ml-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link waves-effect" target="_blank">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link waves-effect" target="_blank">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <img src="/img/sample.jpg" alt="thumbnail" class="img-thumbnail" style="width: 52px; height: 52px; border-radius: 50%;">
+
+            </div>
+
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+
+    <!-- Sidebar -->
+    <div class="sidebar-fixed position-fixed" style="background-color: rgb(29, 40, 44);">
+
+        <div class="text-center" >
+            <a href="dashboard" class="logo-wrapper waves-effect" style="padding: 1.5em;">
+                <img src="/img/logo.png" class="img-fluid" alt="logo">
+            </a>
+        </div>
+
+        <!-- th:class="${#fields.hasErrors('firstName')}? 'form-control is-invalid' : 'form-control'" -->
+
+        <div class="list-group list-group-flush bg-transparent">
+            <a href="dashboard" class="list-group-item waves-effect">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-chart-pie mr-3"></i></div>
+                    <div class="col col-md-10">Dashboard</div>
+                </div>
+            </a>
+
+
+            <a href="/ui/products" class="list-group-item waves-effect list-group-item list-group-item-action waves-effect text-light bg-transparent">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-boxes mr-3"></i></div>
+                    <div class="col col-md-10">Products</div>
+                </div>
+            </a>
+
+            <a href="/ui/customers" class="list-group-item waves-effect list-group-item list-group-item-action waves-effect text-light bg-transparent">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-users mr-3"></i></div>
+                    <div class="col col-md-10">Customers</div>
+                </div>
+            </a>
+
+            <a href="/ui/orders" class="list-group-item waves-effect active">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-inbox mr-3"></i></div>
+                    <div class="col col-md-10">Orders</div>
+                </div>
+            </a>
+
+            <a href="/ui/carriers" class="list-group-item waves-effect list-group-item list-group-item-action waves-effect text-light bg-transparent">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-ship mr-3"></i></div>
+                    <div class="col col-md-10">Carriers</div>
+                </div>
+            </a>
+
+            <a href="/ui/suppliers" class="list-group-item waves-effect list-group-item list-group-item-action waves-effect text-light bg-transparent">
+                <div class="row">
+                    <div class="col col-md-2 text-center"><i class="fas fa-bus mr-3"></i></div>
+                    <div class="col col-md-10">Suppliers</div>
+                </div>
+            </a>
+
+
+        </div>
+
+    </div>
+    <!-- Sidebar -->
+
+</header>
+<!--Main Navigation-->
+
+
+
+
+<!-- Main layout -->
+<main class="py-5 mx-lg-5">
+
+    <div class="container-fluid mt-5">
+
+
+        <!-- Central Modal Medium Info - DELETE EMPLOYEE -->
+        <div  data-path="" data-redirect="" class="modal fade" id="centralModalInfoDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-info" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Modal Info</p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body text-center">
+
+                        <img src="@{/img/info.png}" alt="info" class="img-fluid mb-3" style="width: 80px; height: 80px;">
+
+                        <div>
+                            <p class="modal-message"></p>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" class="btn btn-info" id="centralModalInfoDeleteBtnYes"><i class="fas fa-check"></i> YES</a>
+                        <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal"><i class="fas fa-times"></i> NO</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
+        <hr>
+        <div class="card mb-4 wow fadeIn">
+
+            <div class="card-header">
+                <h5 class="heading"><strong>All Orders</strong></h5>
+            </div>
+            <div class="card-body">
+
+                <div>
+                    <h6 id="orders"></h6>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add New Inbound Order</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Add New Outbound Order</button>
+                </div>
+
+                <br>
+                <div class="alert alert-danger" id="errorMessage" style="display: none">
+                </div>
+
+
+                <table id="orders-table" class="table table-striped table-bordered dt" cellspacing="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Status</th>
+                        <th>Customer Name</th>
+                        <th>Order Date</th>
+                        <th>Date Updated</th>
+                        <th>Order Type</th>
+                        <th>Total</th>
+                        <th>Carrier</th>
+                        <th>Supplier</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Add INBOUND ORDER</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="supplier">Supplier:</label>
+                        <select required type="text" class="form-control" name="supplier" id="supplier">
+                            <option value="" selected>Choose</option>
+                        </select>
+                    </div>
+                    <table id="products-table" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Select</th>
+                            <th>Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addOrder()">Add Order</button>
+                    <br>
+                    <div class="alert alert-danger" id="errorMessage" style="display: none">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel2">Add OUTBOUND ORDER</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="customer">Customer:</label>
+                        <select required type="text" class="form-control" name="customer" id="customer">
+                            <option value="" selected>Choose</option>
+                        </select>
+                    </div>
+                    <table id="products1-table" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Select</th>
+                            <th>Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addOutboundOrder()">Add Order</button>
+                    <br>
+                    <div class="alert alert-danger" id="errorMessage" style="display: none">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel3">Select Carrier to Assign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="carrierForm" onsubmit="return assignCarrier()">
+                        <div class="form-group">
+                            <label for="orderID">Order ID:</label>
+                            <input disabled required type="text" class="form-control" name="orderID" id="orderID" placeholder="Order ID">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carrier">Carrier:</label>
+                            <select required type="text" class="form-control" name="carrier" id="carrier">
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Assign Carrier</button>
+                    </form>
+                    <br>
+                    <div class="alert alert-danger errorMessage" style="display: none">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel4">Order Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="orderDetails">
+                        <div class="form-group">
+                            <label for="orderValue">Order ID:</label>
+                            <input disabled required type="text" class="form-control" name="orderValue" id="orderValue" placeholder="Order ID">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="totalValue">Order Total:</label>
+                            <input disabled required type="text" class="form-control" name="totalValue" id="totalValue" placeholder="Order Total">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="statusValue">Status:</label>
+                            <input disabled required type="text" class="form-control" name="statusValue" id="statusValue" placeholder="Status">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateCreated">Creation Date:</label>
+                            <input disabled required type="text" class="form-control" name="dateCreated" id="dateCreated" placeholder="Creation Date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateUpdated">Last Date Updated:</label>
+                            <input disabled required type="text" class="form-control" name="dateUpdated" id="dateUpdated" placeholder="Last Date Updated">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderType">Order Type:</label>
+                            <input disabled required type="text" class="form-control" name="orderType" id="orderType" placeholder="Order Type">
+                        </div>
+
+                        <p>Order Details : </p>
+                        <br>
+                        <table id="history-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </form>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+<footer class="page-footer text-center font-small primary-color-dark darken-2 wow fadeIn">
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2023 Copyright:
+        <a href="https://mosab-khalil.com/" target="_blank">mosab-khalil.com </a>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/addons/datatables.min.js"></script>
+<script type="text/javascript" src="/js/popper.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/mdb.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript">
+    const errorElement = document.getElementById("errorMessage");
+    let selectedProduct = "";
+    let selectedOrder = "";
+
+    $(document).ready(function() {
+
+
+        $("#orders").text(`Hi , take a look at your orders!`);
+        fetch(`/api/v1/order`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    throw new Error("An error occured fetching data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const updatedData = data.map((a) => {
+                    if(a.status === "Shipped" || a.status === "Not Enough Stock Items") {
+                        a["action"] = `<div><button onclick="viewOrder('${a.id}')" class="btn btn-primary">View</button>
+
+                    <button onclick="assignCarrierModal('${a.id}')" disabled class="btn btn-info">Assign Carrier</button></div>`
+                    }
+                    else if(a.orderType == "INBOUND"){
+                        a["action"] = `<div><button onclick="viewOrder('${a.id}')" class="btn btn-primary">View</button>`
+                    }
+                    else {
+                        a["action"] = `<div><button onclick="viewOrder('${a.id}')" class="btn btn-primary">View</button>
+
+                    <button onclick="assignCarrierModal('${a.id}')" class="btn btn-info">Assign Carrier</button></div>`
+                    }
+                    return a;
+                })
+                $('#orders-table').DataTable({
+                    "data": updatedData,
+                    "bDestroy": true,
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "status"},
+                        {"data": "customerName"},
+                        {"data": "dateCreated"},
+                        {"data": "dateUpdated"},
+                        {"data": "orderType"},
+                        {"data": "total"},
+                        {"data": "carrier"},
+                        {"data": "supplier"},
+                        {"data": "action"},
+                    ]
+                });
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                errorElement.innerHTML = error.message;
+                errorElement.style.display = "block";
+            });
+
+        fetch(`/api/v1/product`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    throw new Error("An error occured fetching data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const updatedData = data.map((a) => {
+                    a["id"] = a.id
+                    a["name"] = a.name
+                    a["select"]=  `<td><input onchange="toggleQuantity(this)" type="checkbox" className="form-check-input"></td>`
+                    a["qty"]=  `<td><input type="number" className="form-control" min="0" disabled></td>`
+                    return a;
+                })
+
+                $('#products-table').DataTable({
+                    "data": updatedData,
+                    "bDestroy": true,
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "name"},
+                        {"data": "select"},
+                        {"data": "qty"}
+                    ]
+                });
+
+                $('#products1-table').DataTable({
+                    "data": updatedData,
+                    "bDestroy": true,
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "name"},
+                        {"data": "select"},
+                        {"data": "qty"}
+                    ]
+                });
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                errorElement.innerHTML = error.message;
+                errorElement.style.display = "block";
+            });
+
+        fetch(`/api/v1/customer`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    throw new Error("An error occured fetching data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                for(let i=0;i<data.length;i++) {
+                    $('#customer').append(`<option value="${data[i].id}">
+                                       ${data[i].name}
+                                  </option>`);
+                }
+
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                errorElement.innerHTML = error.message;
+                errorElement.style.display = "block";
+            });
+
+        fetch(`/api/v1/carrier`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    throw new Error("An error occured fetching data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                for(let i=0;i<data.length;i++) {
+                    $('#carrier').append(`<option value="${data[i].id}">
+                                       ${data[i].name}
+                                  </option>`);
+                }
+
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                errorElement.innerHTML = error.message;
+                errorElement.style.display = "block";
+            });
+
+        fetch(`/api/v1/supplier`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    throw new Error("An error occured fetching data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                for(let i=0;i<data.length;i++) {
+                    $('#supplier').append(`<option value="${data[i].id}">
+                                       ${data[i].name}
+                                  </option>`);
+                }
+
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                errorElement.innerHTML = error.message;
+                errorElement.style.display = "block";
+            });
+
+
+
+
+    });
+
+    function toggleQuantity(checkbox) {
+        var quantityInput = checkbox.parentNode.nextElementSibling.querySelector('input[type="number"]');
+        quantityInput.disabled = !checkbox.checked;
+        quantityInput.value = checkbox.checked ? '' : 0;
+    }
+
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+
+    function addOrder() {
+
+        if (confirm('Are you sure you want to add this order?')) {
+
+            if($("#supplier").val() == "") {
+                alert("Select a supplier");
+                return;
+            }
+            var checkedRows = document.querySelectorAll('tbody tr');
+
+            var orderDTOList = [];
+
+            checkedRows.forEach(function(row) {
+                var checkbox = row.querySelector('input[type="checkbox"]');
+
+                var quantityInput = row.querySelector('input[type="number"]');
+
+                if (checkbox && checkbox.checked) {
+                    var id = row.querySelector('td:nth-child(1)').textContent;
+                    var productName = row.querySelector('td:nth-child(2)').textContent;
+                    var quantity = quantityInput.value;
+
+                    orderDTOList.push({
+                        productId: id,
+                        qty: quantity
+                    });
+                }
+            });
+
+
+
+            const data= {
+                supplierId : $("#supplier").val(),
+                orderDTOList
+            }
+
+            fetch(`/api/v1/order?type=INBOUND`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(async function(response) {
+                    if (response.status != 200) {
+                        const resp= await response.json();
+                        for(let i=0;i<errorElement.length;i++) {
+                            errorElement[i].innerHTML = resp.message;
+                            errorElement[i].style.display = "block";
+                        }
+                        return false;
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the API call
+                    console.log('Error:', error.message);
+                    for(let i=0;i<errorElement.length;i++) {
+                        errorElement[i].innerHTML = error.message;
+                        errorElement[i].style.display = "block";
+                    }
+                });
+        }
+        else {
+            return false;
+        }
+
+        return false;
+    }
+
+    function addOutboundOrder() {
+
+        if (confirm('Are you sure you want to add this order?')) {
+            var checkedRows = document.querySelectorAll('tbody tr');
+            var orderDTOList = [];
+
+            checkedRows.forEach(function(row) {
+                var checkbox = row.querySelector('input[type="checkbox"]');
+
+                var quantityInput = row.querySelector('input[type="number"]');
+
+                if (checkbox && checkbox.checked) {
+                    var id = row.querySelector('td:nth-child(1)').textContent;
+                    var quantity = quantityInput.value;
+
+                    orderDTOList.push({
+                        productId: id,
+                        qty: quantity
+                    });
+                }
+            });
+
+
+            if($("#customer").val() == ""){
+                alert("Select a customer first");
+                return;
+            }
+
+            const data= {
+                orderDTOList,
+                customerId : $("#customer").val()
+            }
+
+
+            fetch(`/api/v1/order?type=OUTBOUND`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(async function(response) {
+                    if (response.status != 200) {
+                        const resp= await response.json();
+                        alert(resp.message)
+                        for(let i=0;i<errorElement.length;i++) {
+                            errorElement[i].innerHTML = resp.message;
+                            errorElement[i].style.display = "block";
+                        }
+                        return false;
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the API call
+                    console.log('Error:', error.message);
+                    for(let i=0;i<errorElement.length;i++) {
+                        errorElement[i].innerHTML = error.message;
+                        errorElement[i].style.display = "block";
+                    }
+                });
+        }
+        else {
+            return false;
+        }
+
+        return false;
+    }
+
+    function viewOrder(id) {
+        selectedProduct = id;
+        fetch(`/api/v1/order/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async function(response) {
+                if (response.status != 200) {
+                    const resp= await response.json();
+                    for(let i=0;i<errorElement.length;i++) {
+                        errorElement[i].innerHTML = resp.message;
+                        errorElement[i].style.display = "block";
+                    }
+                    return false;
+                }
+                else {
+                    const data = await response.json();
+                    $("#totalValue").val(data.total);
+                    $("#statusValue").val(data.status);
+                    $("#dateCreated").val(data.dateCreated);
+                    $("#dateUpdated").val(data.dateUpdated);
+                    $("#orderType").val(data.orderType);
+                    $("#orderValue").val(data.id);
+
+                    const updatedData = data.orderDTOList.map((a) => {
+                        a["productId"] = a.productId
+                        a["productName"] = a.productName
+                        a["qty"]=  a.qty
+                        return a;
+                    })
+
+                    $('#history-table').DataTable({
+                        "data": updatedData,
+                        "bDestroy": true,
+                        "columns": [
+                            {"data": "productId"},
+                            {"data": "productName"},
+                            {"data": "qty"}
+                        ]
+                    });
+                    $("#myModal4").modal("show")
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.log('Error:', error.message);
+                for(let i=0;i<errorElement.length;i++) {
+                    errorElement[i].innerHTML = error.message;
+                    errorElement[i].style.display = "block";
+                }
+            });
+    }
+
+    function assignCarrierModal(id) {
+
+        selectedOrder=id;
+        $("#orderID").val(selectedOrder);
+        $("#myModal3").modal("show");
+    }
+
+    function assignCarrier() {
+
+        if (confirm('Are you sure you want to assign this carrier?')) {
+
+            for(let i=0;i<errorElement.length;i++) {
+                errorElement[i].innerHTML = "";
+                errorElement[i].style.display = "none";
+            }
+
+            fetch(`/api/v1/order/${selectedOrder}/${$("#carrier").val()}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(async function(response) {
+                    if (response.status != 200) {
+                        const resp= await response.json();
+                        for(let i=0;i<errorElement.length;i++) {
+                            errorElement[i].innerHTML = resp.message;
+                            errorElement[i].style.display = "block";
+                        }
+                        return false;
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the API call
+                    console.log('Error:', error.message);
+                    for(let i=0;i<errorElement.length;i++) {
+                        errorElement[i].innerHTML = error.message;
+                        errorElement[i].style.display = "block";
+                    }
+                });
+        }
+        else {
+            return false;
+        }
+
+        return false;
+    }
+
+
+</script>
+<!-- Central Modal Medium Info - DELETE EMPLOYEE-->
+</html>
