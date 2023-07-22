@@ -431,8 +431,6 @@
 
     $(document).ready(function() {
 
-
-        $("#orders").text(`Hi , take a look at your orders!`);
         fetch(`/api/v1/order`, {
             method: 'GET',
             headers: {
@@ -647,13 +645,17 @@
 
     function addOrder() {
 
+        const checkedRows = document.querySelectorAll('tbody tr');
+
+        let empty= true;
+
         if (confirm('Are you sure you want to add this order?')) {
 
             if($("#supplier").val() == "") {
                 alert("Select a supplier");
                 return;
             }
-            var checkedRows = document.querySelectorAll('tbody tr');
+            //var checkedRows = document.querySelectorAll('tbody tr');
 
             var orderDTOList = [];
 
@@ -663,6 +665,7 @@
                 var quantityInput = row.querySelector('input[type="number"]');
 
                 if (checkbox && checkbox.checked) {
+                    empty= false;
                     var id = row.querySelector('td:nth-child(1)').textContent;
                     var productName = row.querySelector('td:nth-child(2)').textContent;
                     var quantity = quantityInput.value;
@@ -673,6 +676,11 @@
                     });
                 }
             });
+
+            if(empty) {
+                alert("Please select a product");
+                return false;
+            }
 
 
 
@@ -718,9 +726,11 @@
     }
 
     function addOutboundOrder() {
+        const checkedRows = document.querySelectorAll('tbody tr');
+        let empty= true;
 
         if (confirm('Are you sure you want to add this order?')) {
-            var checkedRows = document.querySelectorAll('tbody tr');
+            //var checkedRows = document.querySelectorAll('tbody tr');
             var orderDTOList = [];
 
             checkedRows.forEach(function(row) {
@@ -729,6 +739,7 @@
                 var quantityInput = row.querySelector('input[type="number"]');
 
                 if (checkbox && checkbox.checked) {
+                    empty= false;
                     var id = row.querySelector('td:nth-child(1)').textContent;
                     var quantity = quantityInput.value;
 
@@ -738,6 +749,11 @@
                     });
                 }
             });
+
+            if(empty) {
+                alert("Please select a product");
+                return false;
+            }
 
 
             if($("#customer").val() == ""){
